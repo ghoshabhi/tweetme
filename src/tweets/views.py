@@ -9,7 +9,9 @@ from .models import Tweet
 class TweetDetailView(DetailView):
     queryset = Tweet.objects.all()
     def get_object(self):
-        return Tweet.objects.get(id=1)
+        print self.kwargs
+        id = self.kwargs.get('id')
+        return Tweet.objects.get(id=id)
 
 class TweetListView(ListView):
     queryset = Tweet.objects.all()
