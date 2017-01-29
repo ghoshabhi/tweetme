@@ -2,22 +2,22 @@
 Views for Tweets app
 '''
 from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import DetailView, ListView, CreateView
 from .forms import TweetModelForm
 from .models import Tweet
+from .mixins import FormUserNeededMixin
 # Create your views here.
 
-class TweetCreateView(CreateView):
+class TweetCreateView(LoginRequiredMixin, FormUserNeededMixin, CreateView):
     #queryset = Tweet.objects.all()
     form_class = TweetModelForm
     template_name = 'tweets/create_view.html'
     success_url = '/tweet/create'
+    #login_url = '/admin/'
     #fields = ['user', 'content']
 
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super(TweetCreateView, self).form_valid(form)
-
+# function based view
 # def tweet_create_view(request):
 #     form = TweetModelForm(request.POST or None)
 #
