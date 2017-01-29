@@ -3,10 +3,10 @@ Views for Tweets app
 '''
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import DetailView, ListView, CreateView
+from django.views.generic import DetailView, ListView, CreateView, UpdateView
 from .forms import TweetModelForm
 from .models import Tweet
-from .mixins import FormUserNeededMixin
+from .mixins import FormUserNeededMixin, TweetOwnerMixin
 # Create your views here.
 
 class TweetCreateView(LoginRequiredMixin, FormUserNeededMixin, CreateView):
@@ -17,19 +17,12 @@ class TweetCreateView(LoginRequiredMixin, FormUserNeededMixin, CreateView):
     #login_url = '/admin/'
     #fields = ['user', 'content']
 
-# function based view
-# def tweet_create_view(request):
-#     form = TweetModelForm(request.POST or None)
-#
-#     if form.is_valid():
-#         instance = form.save(commit=False)
-#         instance.user = request.user
-#         instance.save()
-#     context = {
-#         "form": form
-#     }
-#     return render(request, 'tweets/create_view.html', context)
 
+class TweetUpdateView(LoginRequiredMixin, TweetOwnerMixin, UpdateView):
+    queryset = Tweet.objects.all()
+    form_class = TweetModelForm
+    template_name = 'tweets/update_view.html'
+    success_url = '/tweet/'
 
 
 class TweetDetailView(DetailView):
@@ -48,6 +41,20 @@ class TweetListView(ListView):
         # context["abhi"] = "Ghosh"
         # print context
         return context
+
+# function based view
+# def tweet_create_view(request):
+#     form = TweetModelForm(request.POST or None)
+#
+#     if form.is_valid():
+#         instance = form.save(commit=False)
+#         instance.user = request.user
+#         instance.save()
+#     context = {
+#         "form": form
+#     }
+#     return render(request, 'tweets/create_view.html', context)
+
 
 # def tweet_detail_view(request, id=1):
 #     '''
