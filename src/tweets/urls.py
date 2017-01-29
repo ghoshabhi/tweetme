@@ -6,6 +6,7 @@ from .views import (
     TweetListView,
     TweetDetailView,
     TweetCreateView,
+    TweetUpdateView
     )
 # tweet_list_view, tweet_detail_view, tweet_create_view
 
@@ -18,4 +19,5 @@ urlpatterns = [
     url(r'^create/$', TweetCreateView.as_view(), name='create'),      # /tweet/create
     url(r'^$', TweetListView.as_view(), name='list'),                 # /tweet/
     url(r'^(?P<id>\d+)/$', TweetDetailView.as_view(), name='detail'), # /tweet/1
+    url(r'^(?P<pk>\d+)/edit/$', TweetUpdateView.as_view(), name='update'), # /tweet/1/update
 ]
