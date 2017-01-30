@@ -2,8 +2,9 @@
 Views for Tweets app
 '''
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import DetailView, ListView, CreateView, UpdateView
+from django.views.generic import DeleteView, DetailView, ListView, CreateView, UpdateView
 from .forms import TweetModelForm
 from .models import Tweet
 from .mixins import FormUserNeededMixin, TweetOwnerMixin
@@ -23,6 +24,11 @@ class TweetUpdateView(LoginRequiredMixin, TweetOwnerMixin, UpdateView):
     form_class = TweetModelForm
     template_name = 'tweets/update_view.html'
     success_url = '/tweet/'
+
+
+class TweetDeleteView(LoginRequiredMixin, DeleteView):
+    model = Tweet
+    success_url = reverse_lazy("home")
 
 
 class TweetDetailView(DetailView):
