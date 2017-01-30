@@ -10,11 +10,11 @@ from .models import Tweet
 from .mixins import FormUserNeededMixin, TweetOwnerMixin
 # Create your views here.
 
-class TweetCreateView(LoginRequiredMixin, FormUserNeededMixin, CreateView):
+class TweetCreateView(FormUserNeededMixin, CreateView):
     #queryset = Tweet.objects.all()
     form_class = TweetModelForm
     template_name = 'tweets/create_view.html'
-    success_url = '/tweet/create'
+    #success_url = '/tweet/create'
     #login_url = '/admin/'
     #fields = ['user', 'content']
 
@@ -29,7 +29,7 @@ class TweetUpdateView(LoginRequiredMixin, TweetOwnerMixin, UpdateView):
 class TweetDeleteView(LoginRequiredMixin, DeleteView):
     model = Tweet
     template_name = 'tweets/delete_view.html'
-    success_url = reverse_lazy("list")
+    success_url = reverse_lazy("tweet:list")
 
 
 class TweetDetailView(DetailView):
